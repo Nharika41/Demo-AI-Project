@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0b12">
+  <meta name="description" content="Student Success AI creates a personalized study plan and tracks your learning progress.">
+  <title>{% block title %}Student Success AI{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="navbar"><div class="container nav-inner">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">✦</span> Student <span>Success AI</span></a>
+  <div class="nav-links">
+    {% if current_user %}
+      <span class="nav-user">Hi, {{ current_user['name'].split()[0] }}</span>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('study_plan') }}">Study plan</a><a href="{{ url_for('progress') }}">Progress</a><a href="{{ url_for('motivation') }}">Motivation</a><a href="{{ url_for('profile') }}">My profile</a>
+      <form class="inline-form" method="post" action="{{ url_for('logout') }}"><button class="btn secondary small" type="submit">Log out</button></form>
+    {% else %}
+      <a href="{{ url_for('index') }}">Home</a><a href="{{ url_for('login') }}">Log in</a><a class="btn small" href="{{ url_for('register') }}">Get started</a>
+    {% endif %}
+  </div>
+</div></nav>
+<main>
+  <div class="container" aria-live="polite">
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}
+  </div>
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer"><div class="container footer-inner"><span>✦ Student Success AI</span><span>Small steps. Consistent progress.</span></div></footer>
+</body></html>
